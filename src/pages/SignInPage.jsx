@@ -1,15 +1,65 @@
 import styled from "styled-components"
-import { Link } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
 import MyWalletLogo from "../components/MyWalletLogo"
+import { useState } from "react"
+import axios from "axios"
 
 export default function SignInPage() {
+
+  const [email, setEmail] = useState("")
+  const [senha, setSenha] = useState("")
+  const BaseURL = import.meta.env.VITE_API_URL
+  const navigate = useNavigate()
+
+  function realizaLogin(e) {
+    e.preventDefault()
+    const body = {
+      email,
+      senha
+    }
+    console.log(body)
+    const promise = axios.post(`${BaseURL}/`,body)
+    console.log(promise)
+
+    promise.then(res => {
+      console.log(res)
+      navigate('/home')
+    })
+    promise.catch(err => {
+      alert(err.response.data)
+      setEmail("")
+      setSenha("")
+      
+    })
+
+  }
+
   return (
     <SingInContainer>
-      <form>
+      <form onSubmit={realizaLogin}>
         <MyWalletLogo />
-        <input placeholder="E-mail" type="email" />
-        <input placeholder="Senha" type="password" />
-        <button>Entrar</button>
+        <input
+          data-test="email"
+          placeholder="E-mail"
+          type="email"
+          value={email}
+          onChange={e => setEmail(e.target.value)}
+          required
+        />
+
+        <input
+          data-test="password"
+          placeholder="Senha"
+          type="password"
+          value={senha}
+          onChange={e => setSenha(e.target.value)}
+          required
+        />
+        <button
+          data-test="sign-in-submit"
+          type="submit">
+          Entrar
+        </button>
       </form>
 
       <Link to={'/cadastro'}>

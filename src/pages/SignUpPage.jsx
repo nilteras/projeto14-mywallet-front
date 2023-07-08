@@ -32,7 +32,8 @@ export default function SignUpPage() {
       navigate('/')
     })
     promise.catch(err => {
-      alert(err.message)
+      console.log(err)
+      alert(err.response.data)
       setNome("")
       setEmail("")
       setSenha("")
