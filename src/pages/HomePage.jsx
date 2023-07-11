@@ -50,7 +50,7 @@ export default function HomePage() {
       <TransactionsContainer>
         <ul>
           {transations.map(t => (
-            <ListItemContainer>
+            <ListItemContainer key={t.id}>
               <div>
                 <span>{t.data}</span>
                 <strong>{t.descricao}</strong>
