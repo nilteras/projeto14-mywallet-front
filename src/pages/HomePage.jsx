@@ -28,7 +28,7 @@ export default function HomePage() {
     })
     promise.then(res => {
       setDataUser(res.data)
-      setTransations(res.data.transacoes)
+      setTransations(res.data.transacoes.reverse())
       console.log(res.data.transacoes)
 
     })
