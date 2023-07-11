@@ -28,6 +28,7 @@ export default function SignInPage() {
       console.log(res.data)
       const {_id, nome} = res.data.usuario
       setUser({_id, nome})
+      localStorage.setItem('token',res.data.token)
       setToken(res.data.token)
       navigate('/home')
     })

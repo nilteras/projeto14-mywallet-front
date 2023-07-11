@@ -17,14 +17,11 @@ export default function HomePage() {
   const [dataUser, setDataUser] = useState([])
   const [transations, setTransations] = useState([])
 
-  function logout(){
-    setToken('')
-    setTransations('')
-    setDataUser('')
-    navigate('/')
-  }
-
   useEffect(() => {
+    if (localStorage.getItem('token') == undefined) {
+      navigate('/')
+      return
+    }
     const promise = axios.get(`${BaseURL}/home`, {
       headers:
         { Authorization: `Bearer ${token}` }
@@ -38,15 +35,23 @@ export default function HomePage() {
     promise.catch(err => {
       console.log(err.message)
     })
+
   }, [])
 
-  
+  function logout() {
+    localStorage.removeItem('token')
+    setToken('')
+    setTransations('')
+    setDataUser('')
+    navigate('/')
+  }
+
 
   return (
     <HomeContainer>
       <Header>
         <h1 data-test="user-name">Olá, {user.nome}</h1>
-        <BiExit data-test="logout" onClick={logout}/>
+        <BiExit data-test="logout" onClick={logout} />
       </Header>
 
       <TransactionsContainer>
