@@ -17,6 +17,10 @@ export default function HomePage() {
   const [dataUser, setDataUser] = useState([])
   const [transations, setTransations] = useState([])
 
+  function logout(){
+    navigate('/')
+  }
+
   useEffect(() => {
     const promise = axios.get(`${BaseURL}/home`, {
       headers:
@@ -32,19 +36,13 @@ export default function HomePage() {
     })
   }, [])
 
-  function novaEntrada() {
+  
 
-  }
-
-  function novaSaida() {
-    navigate()
-  }
-  console.log(transations)
   return (
     <HomeContainer>
       <Header>
-        <h1>Olá, {user.nome}</h1>
-        <BiExit />
+        <h1 data-test="user-name">Olá, {user.nome}</h1>
+        <BiExit data-test="logout" onClick={logout}/>
       </Header>
 
       <TransactionsContainer>
@@ -53,26 +51,26 @@ export default function HomePage() {
             <ListItemContainer key={t.id}>
               <div>
                 <span>{t.data}</span>
-                <strong>{t.descricao}</strong>
+                <strong data-test="registry-name" >{t.descricao}</strong>
               </div>
-              <Value color={t.tipo === "entrada" ? "positivo" : "negativo"}>{t.valor}</Value>
+              <Value data-test="registry-amount" color={t.tipo === "entrada" ? "positivo" : "negativo"}>{t.valor}</Value>
             </ListItemContainer>
           ))}
         </ul>
 
         <article>
           <strong>Saldo</strong>
-          <Value color={dataUser.saldo > 0 ? "positivo" : "negativo"}>{dataUser.saldo}</Value>
+          <Value data-test="total-amount" color={dataUser.saldo > 0 ? "positivo" : "negativo"}>{dataUser.saldo}</Value>
         </article>
       </TransactionsContainer>
 
 
       <ButtonsContainer>
-        <button>
+        <button data-test="new-income" onClick={() => navigate('/nova-transacao/entrada')}>
           <AiOutlinePlusCircle />
           <p>Nova <br /> entrada</p>
         </button>
-        <button onClick={novaSaida}>
+        <button data-test="new-expense" onClick={() => navigate('/nova-transacao/saida')}>
           <AiOutlineMinusCircle />
           <p>Nova <br />saída</p>
         </button>
