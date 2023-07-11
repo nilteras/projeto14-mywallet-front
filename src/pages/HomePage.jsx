@@ -12,12 +12,15 @@ export default function HomePage() {
 
   const navigate = useNavigate()
   const { user } = useContext(UserContext)
-  const { token } = useContext(TokenContext)
+  const { token, setToken } = useContext(TokenContext)
   const BaseURL = import.meta.env.VITE_API_URL
   const [dataUser, setDataUser] = useState([])
   const [transations, setTransations] = useState([])
 
   function logout(){
+    setToken('')
+    setTransations('')
+    setDataUser('')
     navigate('/')
   }
 
@@ -29,6 +32,7 @@ export default function HomePage() {
     promise.then(res => {
       setDataUser(res.data)
       setTransations(res.data.transacoes)
+      console.log(res.data.transacoes)
 
     })
     promise.catch(err => {
@@ -53,14 +57,14 @@ export default function HomePage() {
                 <span>{t.data}</span>
                 <strong data-test="registry-name" >{t.descricao}</strong>
               </div>
-              <Value data-test="registry-amount" color={t.tipo === "entrada" ? "positivo" : "negativo"}>{t.valor}</Value>
+              <Value data-test="registry-amount" color={t.tipo === "entrada" ? "positivo" : "negativo"}>{parseFloat(t.valor).toFixed(2)}</Value>
             </ListItemContainer>
           ))}
         </ul>
 
         <article>
           <strong>Saldo</strong>
-          <Value data-test="total-amount" color={dataUser.saldo > 0 ? "positivo" : "negativo"}>{dataUser.saldo}</Value>
+          <Value data-test="total-amount" color={dataUser.saldo > 0 ? "positivo" : "negativo"}>{parseFloat(dataUser.saldo).toFixed(2)}</Value>
         </article>
       </TransactionsContainer>
 

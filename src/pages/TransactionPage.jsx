@@ -20,6 +20,7 @@ export default function TransactionsPage() {
       valor: renderValor,
       descricao
     }
+    console.log(token)
     const promise = axios.post(`${BaseURL}/nova-transacao/${tipo}`, body, {
       headers:
         { Authorization: `Bearer ${token}` }
