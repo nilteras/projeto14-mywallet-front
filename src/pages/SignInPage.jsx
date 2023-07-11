@@ -1,13 +1,17 @@
 import styled from "styled-components"
 import { Link, useNavigate } from "react-router-dom"
 import MyWalletLogo from "../components/MyWalletLogo"
-import { useState } from "react"
+import { useContext, useState } from "react"
 import axios from "axios"
+import { UserContext } from "../contexts/UserContext"
+import { TokenContext } from "../contexts/TokenContext"
 
 export default function SignInPage() {
 
   const [email, setEmail] = useState("")
   const [senha, setSenha] = useState("")
+  const {setUser} = useContext(UserContext)
+  const {setToken} = useContext(TokenContext)
   const BaseURL = import.meta.env.VITE_API_URL
   const navigate = useNavigate()
 
@@ -17,12 +21,14 @@ export default function SignInPage() {
       email,
       senha
     }
-    console.log(body)
+    
     const promise = axios.post(`${BaseURL}/`,body)
-    console.log(promise)
 
     promise.then(res => {
-      console.log(res)
+      console.log(res.data)
+      const {_id, nome} = res.data.usuario
+      setUser({_id, nome})
+      setToken(res.data.token)
       navigate('/home')
     })
     promise.catch(err => {
