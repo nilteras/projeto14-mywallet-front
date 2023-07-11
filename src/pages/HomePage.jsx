@@ -44,6 +44,14 @@ export default function HomePage() {
     setTransations('')
     setDataUser('')
     navigate('/')
+
+    const promise = axios.post(`${BaseURL}/logout`)
+    promise.then(res => {
+      console.log(res)
+    })
+    promise.catch(err => {
+      console.log(err.message)
+    })
   }
 
 
